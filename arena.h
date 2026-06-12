@@ -33,6 +33,7 @@ public:
     void handleInput(sf::Event& event, sf::RenderWindow& window);
     void update();
     void render(sf::RenderWindow& window);
+    void init();
 };
 
 #endif

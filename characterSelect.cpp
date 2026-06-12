@@ -87,6 +87,21 @@ void CharacterSelect::iconSet(const std::vector<CharIconData> &iconsVec, std::ve
             std::cout << "Character " << icon.charId << " selected!" << std::endl;
         }));
 
+        buttonsVec.push_back(Button(icon.position, icon.scaleX, icon.scaleY, characterTextures[icon.charId], [this, &buttonsVec, i, icon]() {
+            for (auto& btn : buttonsVec) {
+                btn.setSelected(false);
+            }
+            buttonsVec[i].setSelected(true);
+
+            if (icon.frameTex == &redFrameTex) {
+                engine->setPlayer1CharId(icon.charId);
+                std::cout << "Player 1 selected ID: " << icon.charId << std::endl;
+            } else if (icon.frameTex == &violetFrameTex) {
+                engine->setPlayer2CharId(icon.charId);
+                std::cout << "Player 2 selected ID: " << icon.charId << std::endl;
+            }
+        }));
+
         buttonsVec.back().setHoverTexture(*icon.frameTex);
     }
 }
