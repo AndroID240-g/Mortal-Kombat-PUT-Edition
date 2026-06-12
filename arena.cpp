@@ -21,8 +21,8 @@ Arena::Arena(GameEngine* gameEngine) {
     backgroundSprite.setScale(scaleX, scaleY);
 
     // --- ZMIANA GRAFIKI TUTAJ ---
-    p1 = new Player("Icons/Animacje_Stojace.png", 400.f, GROUND_HEIGHT, true);
-    p2 = new Player("Icons/Animacje_Stojace.png", 1400.f, GROUND_HEIGHT, false);
+    p1 = new Player("Icons/char_1_fight.png", 400.f, GROUND_HEIGHT, true);
+    p2 = new Player("Icons/char_1_fight.png", 1400.f, GROUND_HEIGHT, false);
 
     gameObjects.push_back(std::unique_ptr<GameObject>(p1));
     gameObjects.push_back(std::unique_ptr<GameObject>(p2));
@@ -112,18 +112,4 @@ void Arena::render(sf::RenderWindow& window) {
     window.draw(p1HealthBar);
     window.draw(p2HealthBg);
     window.draw(p2HealthBar);
-}
-
-void Arena::init() {
-    int p1Id = engine->getPlayer1CharId();
-    int p2Id = engine->getPlayer2CharId();
-
-    if (p1Id == -1) p1Id = 1;
-    if (p2Id == -1) p2Id = 1;
-
-    std::string p1Path = "Sprites/hero_" + std::to_string(p1Id) + "_fight.png";
-    std::string p2Path = "Sprites/hero_" + std::to_string(p2Id) + "_fight.png";
-
-    p1->loadSprites(p1Path);
-    p2->loadSprites(p2Path);
 }
