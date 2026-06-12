@@ -1,40 +1,23 @@
 #include "player.h"
-#include <iostream>
 
-Player::Player(std::string texturePath, float startX, float startY, bool isP1) {
+Player::Player(std::string texturePath, float startX, float startY, bool isP1)
+    : anim(texturePath, 64, 64) // UWAGA: Jeśli klatki są poucinane, trzeba zmienić to 64, 64 na rzeczywisty rozmiar jednej klatki z obrazka!
+{
     isPlayerOne = isP1;
-    speed = 300.f;
-    hp = 100;
+    speed = PLAYER_SPEED;
+    hp = MAX_PLAYER_HP;
+    velocityX = 0.f;
+    velocityY = 0.f;
+    isJumping = false;
 
     currentState = AnimState::Idle;
     facingRight = isP1;
     isAttacking = false;
 
-    
-    sf::Image image;
-    
-    if (!image.loadFromFile("Icons/" + texturePath)) {
-        std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
-    }
-    
-    image.createMaskFromColor(sf::Color(255, 0, 255));
+    anim.setPosition(startX, GROUND_HEIGHT);
+    anim.setScale(facingRight ? 4.f : -4.f, 4.f);
 
-    
-    texture.loadFromImage(image);
-    sprite.setTexture(texture);
-    sprite.setPosition(startX, startY);
-
-    frameWidth = 384;
-    frameHeight = 224;
-
-    currentFrame = 0;
-    animationTimer = 0.f;
-    animationSpeed = 0.15f;
-
-    sprite.setScale(4.f, 4.f);
-    sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f);
-
-    hitbox.setSize(sf::Vector2f(frameWidth * 2.f, frameHeight * 3.f));
+    hitbox.setSize(sf::Vector2f(128.f, 192.f));
     hitbox.setFillColor(sf::Color::Transparent);
     hitbox.setOutlineColor(sf::Color::Red);
     hitbox.setOutlineThickness(2.f);
@@ -45,89 +28,89 @@ void Player::handleInput() {
 
     currentState = AnimState::Idle;
     isAttacking = false;
+    velocityX = 0.f;
 
     if (isPlayerOne) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            sprite.move(-speed * 0.016f, 0);
+            velocityX = -speed;
             currentState = AnimState::Walk;
             facingRight = false;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            sprite.move(speed * 0.016f, 0);
+            velocityX = speed;
             currentState = AnimState::Walk;
             facingRight = true;
         }
-        // Atak - Spacja dla P1
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !isJumping) {
+            velocityY = JUMP_VELOCITY;
+            isJumping = true;
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             currentState = AnimState::Attack;
-            currentFrame = 0;
             isAttacking = true;
+            velocityX = 0.f;
         }
     }
     else {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            sprite.move(-speed * 0.016f, 0);
+            velocityX = -speed;
             currentState = AnimState::Walk;
             facingRight = false;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            sprite.move(speed * 0.016f, 0);
+            velocityX = speed;
             currentState = AnimState::Walk;
             facingRight = true;
         }
-        // Atak - Enter dla P2
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !isJumping) {
+            velocityY = JUMP_VELOCITY;
+            isJumping = true;
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
             currentState = AnimState::Attack;
-            currentFrame = 0;
             isAttacking = true;
+            velocityX = 0.f;
         }
     }
 }
 
 void Player::update(float deltaTime) {
-    animationTimer += deltaTime;
+    velocityY += GRAVITY * deltaTime;
 
-    int row = 0;
-    int maxFrames = 4;
+    anim.move(velocityX * deltaTime, velocityY * deltaTime);
 
-    
+    if (anim.getPosition().y >= GROUND_HEIGHT) {
+        anim.setPosition(anim.getPosition().x, GROUND_HEIGHT);
+        velocityY = 0.f;
+        isJumping = false;
+    }
+
+    // --- ZMIANY ANIMACJI SĄ TUTAJ ---
     if (currentState == AnimState::Idle) {
-        row = 0;
-        maxFrames = 1; 
+        anim.setAnimation(0, 7); // Rząd 1 (indeks 0), 7 klatek
     }
     else if (currentState == AnimState::Walk) {
-        row = 0; 
-        maxFrames = 4;
+        anim.setAnimation(1, 9); // Rząd 2 (indeks 1), 9 klatek
     }
     else if (currentState == AnimState::Attack) {
-        row = 1; 
-        maxFrames = 4;
+        anim.setAnimation(5, 6); // Rząd 6 (indeks 5), 6 klatek
     }
 
-    if (animationTimer >= animationSpeed) {
-        currentFrame++;
-        animationTimer = 0.f;
+    bool animationFinished = anim.update(deltaTime);
 
-        if (currentState == AnimState::Attack && currentFrame >= maxFrames) {
-            currentState = AnimState::Idle;
-            isAttacking = false;
-            currentFrame = 0;
-        }
-        else if (currentFrame >= maxFrames) {
-            currentFrame = 0;
-        }
+    if (currentState == AnimState::Attack && animationFinished) {
+        currentState = AnimState::Idle;
+        isAttacking = false;
     }
-
-    sprite.setTextureRect(sf::IntRect(currentFrame * frameWidth, row * frameHeight, frameWidth, frameHeight));
 
     if (facingRight) {
-        sprite.setScale(4.f, 4.f);
+        anim.setScale(4.f, 4.f);
     }
     else {
-        sprite.setScale(-4.f, 4.f);
+        anim.setScale(-4.f, 4.f);
     }
 
-    hitbox.setPosition(sprite.getPosition().x - hitbox.getSize().x / 2.f, sprite.getPosition().y - hitbox.getSize().y / 2.f);
+    hitbox.setPosition(anim.getPosition().x - hitbox.getSize().x / 2.f, anim.getPosition().y - hitbox.getSize().y / 2.f);
 }
 
 void Player::takeDamage(int damage) {
@@ -135,7 +118,11 @@ void Player::takeDamage(int damage) {
     if (hp < 0) hp = 0;
 }
 
+void Player::heal(int amount) {
+    hp += amount;
+    if (hp > MAX_PLAYER_HP) hp = MAX_PLAYER_HP;
+}
+
 void Player::draw(sf::RenderWindow& window) {
-    window.draw(sprite);
-   
+    anim.draw(window);
 }

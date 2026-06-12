@@ -3,28 +3,23 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "gameobject.h"
+#include "animation.h"
+#include "config.h"
 
-// Stany, w jakich mo¿e znajdowaæ siê postaæ
 enum class AnimState { Idle, Walk, Attack };
 
-class Player {
+class Player : public GameObject {
 private:
-    sf::Sprite sprite;
-    sf::Texture texture;
+    Animation anim;
     sf::RectangleShape hitbox;
-
-    
-    int frameWidth;
-    int frameHeight;
-    int currentFrame;
-    float animationTimer;
-    float animationSpeed;
 
     AnimState currentState;
     bool facingRight;
-
-    
     float speed;
+    float velocityX;
+    float velocityY;
+    bool isJumping;
     int hp;
     bool isPlayerOne;
     bool isAttacking;
@@ -33,13 +28,13 @@ public:
     Player(std::string texturePath, float startX, float startY, bool isP1);
 
     void handleInput();
-    void update(float deltaTime);
-    void draw(sf::RenderWindow& window);
+    void update(float deltaTime) override;
+    void draw(sf::RenderWindow& window) override;
+    sf::FloatRect getBounds() override { return hitbox.getGlobalBounds(); }
 
-    // Funkcje pomocnicze dla Areny
-    sf::RectangleShape getHitbox() { return hitbox; }
     bool isCurrentlyAttacking() { return isAttacking; }
     void takeDamage(int damage);
+    void heal(int amount);
     int getHp() { return hp; }
 };
 

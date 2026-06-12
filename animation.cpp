@@ -11,10 +11,12 @@ Animation::Animation(const std::string& texturePath, int width, int height) {
     animationSpeed = 0.15f;
 
     sf::Image image;
-    if (!image.loadFromFile("Icons/" + texturePath)) {
+    if (!image.loadFromFile(texturePath)) {
         std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
     }
-    image.createMaskFromColor(sf::Color(255, 0, 255));
+
+    // --- ZMIANA KOLORU MASKI NA CZARNY ---
+    image.createMaskFromColor(sf::Color(0, 0, 0));
 
     texture.loadFromImage(image);
     sprite.setTexture(texture);
@@ -41,7 +43,7 @@ bool Animation::update(float deltaTime) {
 }
 
 void Animation::setAnimation(int row, int frames) {
-   
+
     if (currentRow != row || maxFrames != frames) {
         currentRow = row;
         maxFrames = frames;

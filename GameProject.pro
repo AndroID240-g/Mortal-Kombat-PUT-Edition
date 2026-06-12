@@ -26,6 +26,7 @@ SOURCES += main.cpp \
     settings.cpp
 
 HEADERS += \
+    config.h \
     gameobject.h \
     animation.h \
     apteczka.h \
