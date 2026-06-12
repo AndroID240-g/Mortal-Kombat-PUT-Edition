@@ -32,10 +32,10 @@ public:
     void draw(sf::RenderWindow& window) override;
     sf::FloatRect getBounds() override { return hitbox.getGlobalBounds(); }
 
-    bool isCurrentlyAttacking() { return isAttacking; }
     void takeDamage(int damage);
     void heal(int amount);
     int getHp() { return hp; }
+    bool isCurrentlyAttacking() { return isAttacking; }
 };
 
 #endif

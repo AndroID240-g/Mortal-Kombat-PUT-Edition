@@ -9,13 +9,13 @@ SettingsWindow::SettingsWindow(GameEngine* gameEngine) {
     float screenWidth = desktopMode.width;
     float screenHeight = desktopMode.height;
 
-    if (!backgroundTexture.loadFromFile("settingsBack.png")) {
+    if (!backgroundTexture.loadFromFile("Icons/settingsBack.png")) {
         std::cout << "Error: no settings background image!" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(screenWidth / backgroundTexture.getSize().x, screenHeight / backgroundTexture.getSize().y);
 
-    if (!backBtnTex.loadFromFile("backBtnTex.png")) {
+    if (!backBtnTex.loadFromFile("Icons/backBtnTex.png")) {
         std::cout << "Error: no back button image!" << std::endl;
     }
 

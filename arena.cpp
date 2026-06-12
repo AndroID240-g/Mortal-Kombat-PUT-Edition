@@ -21,8 +21,8 @@ Arena::Arena(GameEngine* gameEngine) {
     backgroundSprite.setScale(scaleX, scaleY);
 
     // --- ZMIANA GRAFIKI TUTAJ ---
-    p1 = new Player("Icons/Animacje_Stojace.jpg", 400.f, GROUND_HEIGHT, true);
-    p2 = new Player("Icons/Animacje_Stojace.jpg", 1400.f, GROUND_HEIGHT, false);
+    p1 = new Player("Icons/Animacje_Stojace.png", 400.f, GROUND_HEIGHT, true);
+    p2 = new Player("Icons/Animacje_Stojace.png", 1400.f, GROUND_HEIGHT, false);
 
     gameObjects.push_back(std::unique_ptr<GameObject>(p1));
     gameObjects.push_back(std::unique_ptr<GameObject>(p2));

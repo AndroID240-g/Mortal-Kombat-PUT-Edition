@@ -10,18 +10,18 @@ enum class ScreenState { Menu, Settings, CharacterSelect, Arena };
 class MainMenu;
 class SettingsWindow;
 class CharacterSelect;
-class Arena; 
+class Arena;
 
 class GameEngine {
 private:
     sf::RenderWindow window;
     ScreenState currentScreen;
 
-    
+
     MainMenu* mainMenu;
     SettingsWindow* settingsWindow;
     CharacterSelect* characterSelect;
-    Arena* arena; 
+    Arena* arena;
 
     void processEvents();
     void update();
@@ -33,7 +33,7 @@ public:
 
     void run();
 
-    
+
     void changeScreen(ScreenState newState);
 };
 

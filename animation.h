@@ -20,11 +20,15 @@ public:
     Animation(const std::string& texturePath, int width, int height);
 
     bool update(float deltaTime);
-    void setAnimation(int row, int frames);
+    // originYOffset: dodatkowe przesuniecie punktu zaczepienia w osi Y,
+    // wlasciwe dla danego stanu animacji (kompensuje rozne ulozenie
+    // sylwetki w klatce miedzy wierszami sprite sheetu)
+    void setAnimation(int row, int frames, float originYOffset = 0.f);
     void setPosition(float x, float y);
     void setScale(float x, float y);
     void move(float offsetX, float offsetY);
     sf::Vector2f getPosition() const;
+    sf::FloatRect getGlobalBounds() const;
     void draw(sf::RenderWindow& window);
 };
 

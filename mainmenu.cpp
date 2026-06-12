@@ -9,15 +9,15 @@ MainMenu::MainMenu(GameEngine* gameEngine) {
     float screenWidth = desktopMode.width;
     float screenHeight = desktopMode.height;
 
-    if (!backgroundTexture.loadFromFile("mainWindowBack.png")) {
+    if (!backgroundTexture.loadFromFile("Icons/mainWindowBack.png")) {
         std::cout << "Error: no background image!" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(screenWidth / backgroundTexture.getSize().x, screenHeight / backgroundTexture.getSize().y);
 
-    startBtnTex.loadFromFile("startBtnTex.png");
-    quitBtnTex.loadFromFile("quitBtnTex.png");
-    settingsBtnTex.loadFromFile("settingsBtnTex.png");
+    startBtnTex.loadFromFile("Icons/startBtnTex.png");
+    quitBtnTex.loadFromFile("Icons/quitBtnTex.png");
+    settingsBtnTex.loadFromFile("Icons/settingsBtnTex.png");
 
 
     menuButtons.push_back(Button(

@@ -15,10 +15,9 @@ Animation::Animation(const std::string& texturePath, int width, int height) {
         std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
     }
 
-    // --- ZMIANA KOLORU MASKI NA CZARNY ---
-    image.createMaskFromColor(sf::Color(0, 0, 0));
-
     texture.loadFromImage(image);
+    texture.setSmooth(false); // bez ghostingu/bleedingu
+
     sprite.setTexture(texture);
     sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f);
     sprite.setTextureRect(sf::IntRect(0, 0, frameWidth, frameHeight));
@@ -42,14 +41,16 @@ bool Animation::update(float deltaTime) {
     return finished;
 }
 
-void Animation::setAnimation(int row, int frames) {
-
+void Animation::setAnimation(int row, int frames, float originYOffset) {
     if (currentRow != row || maxFrames != frames) {
         currentRow = row;
         maxFrames = frames;
         currentFrame = 0;
         animationTimer = 0.f;
     }
+
+    // Korekta origin-Y per stan -> usuwa "skakanie" przy zmianie animacji
+    sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f + originYOffset);
 }
 
 void Animation::setPosition(float x, float y) {
@@ -66,6 +67,10 @@ void Animation::move(float offsetX, float offsetY) {
 
 sf::Vector2f Animation::getPosition() const {
     return sprite.getPosition();
+}
+
+sf::FloatRect Animation::getGlobalBounds() const {
+    return sprite.getGlobalBounds();
 }
 
 void Animation::draw(sf::RenderWindow& window) {
