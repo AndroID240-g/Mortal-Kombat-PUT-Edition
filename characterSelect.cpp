@@ -25,7 +25,7 @@ CharacterSelect::CharacterSelect(GameEngine* gameEngine) {
     backBtnTex.loadFromFile("backBtnTex.png");
 
     selectButtons.push_back(Button(sf::Vector2f(50.f, 50.f), 0.2f, backBtnTex,
-                                   [this]() { engine->changeScreen(ScreenState::Menu); }));
+        [this]() { engine->changeScreen(ScreenState::Menu); }));
 
     charIconTex.loadFromFile("charBtnTex.png");
 
@@ -58,7 +58,9 @@ CharacterSelect::CharacterSelect(GameEngine* gameEngine) {
     fightBtnTex.loadFromFile("fightBtnTex.png");
 
     selectButtons.push_back(Button(sf::Vector2f(screenWidth / 2.0f - 200.f, screenHeight * 0.82f), 0.4f, fightBtnTex,
-        [this]() { engine->changeScreen(ScreenState::Arena); }));
+        [this]() {
+            engine->changeScreen(ScreenState::Arena);
+        }));
 
 }
 void CharacterSelect::handleInput(sf::Event& event, sf::RenderWindow& window) {

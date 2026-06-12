@@ -7,6 +7,7 @@ class Apteczka : public GameObject {
 private:
     sf::RectangleShape shape;
     bool active;
+    float rotationSpeed; // DODANE: Prędkość rotacji w stopniach/s
 
 public:
     Apteczka(float x, float y);

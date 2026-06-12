@@ -2,7 +2,7 @@
 #include "mainMenu.h"
 #include "settings.h"
 #include "characterSelect.h"
-#include "arena.h"
+#include "arena.h" 
 
 GameEngine::GameEngine() {
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -14,14 +14,14 @@ GameEngine::GameEngine() {
     mainMenu = new MainMenu(this);
     settingsWindow = new SettingsWindow(this);
     characterSelect = new CharacterSelect(this);
-    arena = new Arena(this);
+    arena = new Arena(this); 
 }
 
 GameEngine::~GameEngine() {
     delete mainMenu;
     delete settingsWindow;
     delete characterSelect;
-    delete arena;
+    delete arena; 
 }
 
 void GameEngine::run() {
@@ -47,15 +47,15 @@ void GameEngine::processEvents() {
             characterSelect->handleInput(event, window);
         }
         else if (currentScreen == ScreenState::Arena) {
-            arena->handleInput(event, window);
+            arena->handleInput(event, window); 
         }
     }
 }
 
 void GameEngine::update() {
-
+    
     if (currentScreen == ScreenState::Arena) {
-        arena->update();
+        arena->update(); 
     }
 }
 
