@@ -1,0 +1,12 @@
+debug/main.o
+debug/animation.o
+debug/apteczka.o
+debug/animation.o
+debug/apteczka.o
+debug/arena.o
+debug/buttons.o
+debug/characterSelect.o
+debug/engine.o
+debug/mainMenu.o
+debug/player.o
+debug/settings.o
