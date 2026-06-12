@@ -33,41 +33,58 @@ CharacterSelect::CharacterSelect(GameEngine* gameEngine) {
 
     charIconTex.loadFromFile("Icons/charBtnTex.png");
 
-    std::vector<CharIconData> leftIcons = {
-        { Position(90.0, 200.0),  10, 0.60f, 0.45f, &redFrameTex },
-        { Position(360.0, 200.0), 11, 0.60f, 0.45f, &redFrameTex },
-        { Position(630.0, 200.0), 12, 0.60f, 0.45f, &redFrameTex },
+    std::vector<CharIconData> leftTopIcons = {
+        { Position(90.0, 200.0),  10, 0.50f, 0.45f, &redFrameTex },
+        { Position(360.0, 200.0), 11, 0.50f, 0.45f, &redFrameTex },
+        { Position(630.0, 200.0), 12, 0.50f, 0.45f, &redFrameTex }
+    };
 
+    iconSet(leftTopIcons, leftTopCharButtons);
+
+    std::vector<CharIconData> leftMedIcons = {
         { Position(170.0, 520.0), 1, 0.45f, 0.45f, &redFrameTex },
         { Position(385.0, 520.0), 2, 0.45f, 0.45f, &redFrameTex },
         { Position(600.0, 520.0), 3, 0.45f, 0.45f, &redFrameTex }
     };
 
-    iconSet(leftIcons, leftCharButtons);
+    iconSet(leftMedIcons, leftMedCharButtons);
 
-    std::vector<CharIconData> rightIcons = {
-        { Position(1090.0, 200.0), 13, 0.60f, 0.45f, &violetFrameTex },
-        { Position(1360.0, 200.0), 14, 0.60f, 0.45f, &violetFrameTex },
-        { Position(1630.0, 200.0), 15, 0.60f, 0.45f, &violetFrameTex },
+    std::vector<CharIconData> rightTopIcons = {
+        { Position(1090.0, 200.0), 12, 0.50f, 0.45f, &violetFrameTex },
+        { Position(1360.0, 200.0), 11, 0.50f, 0.45f, &violetFrameTex },
+        { Position(1630.0, 200.0), 10, 0.50f, 0.45f, &violetFrameTex }
+    };
+    iconSet(rightTopIcons, rightTopCharButtons);
 
-        { Position(1170.0, 520.0), 4, 0.45f, 0.45f, &violetFrameTex },
-        { Position(1385.0, 520.0), 5, 0.45f, 0.45f, &violetFrameTex },
-        { Position(1600.0, 520.0), 6, 0.45f, 0.45f, &violetFrameTex }
+    std::vector<CharIconData> rightMedIcons = {
+        { Position(1170.0, 520.0), 3, 0.45f, 0.45f, &violetFrameTex },
+        { Position(1385.0, 520.0), 2, 0.45f, 0.45f, &violetFrameTex },
+        { Position(1600.0, 520.0), 1, 0.45f, 0.45f, &violetFrameTex }
     };
 
-    iconSet(rightIcons, rightCharButtons);
+    iconSet(rightMedIcons, rightMedCharButtons);
 }
 
 void CharacterSelect::iconSet(const std::vector<CharIconData> &iconsVec, std::vector<Button> &buttonsVec) {
     for (size_t i = 0; i < iconsVec.size(); ++i) {
         const auto& icon = iconsVec[i];
 
-        buttonsVec.push_back(Button(icon.position, icon.scaleX, icon.scaleY, charIconTex, [this, &buttonsVec, i]() {
+        if (characterTextures.find(icon.charId) == characterTextures.end()) {
+            sf::Texture tex;
+            std::string path = "Icons/char_" + std::to_string(icon.charId) + ".png";
+
+            if (!tex.loadFromFile(path)) {
+                std::cout << "Error: Failed to load " << path << std::endl;
+            }
+            characterTextures[icon.charId] = tex;
+        }
+
+        buttonsVec.push_back(Button(icon.position, icon.scaleX, icon.scaleY, characterTextures[icon.charId], [this, &buttonsVec, i, icon]() {
             for (auto& btn : buttonsVec) {
                 btn.setSelected(false);
             }
             buttonsVec[i].setSelected(true);
-            std::cout << "Character " << i << " selected!" << std::endl;
+            std::cout << "Character " << icon.charId << " selected!" << std::endl;
         }));
 
         buttonsVec.back().setHoverTexture(*icon.frameTex);
@@ -78,13 +95,20 @@ void CharacterSelect::handleInput(sf::Event& event, sf::RenderWindow& window) {
     for (auto& button : uiButtons) {
         button.handleEvent(event, window);
     }
-    for (auto& button : leftCharButtons) {
+    for (auto& button : leftTopCharButtons) {
         button.handleEvent(event, window);
     }
-    for (auto& button : rightCharButtons) {
+    for (auto& button : rightTopCharButtons) {
+        button.handleEvent(event, window);
+    }
+    for (auto& button : leftMedCharButtons) {
+        button.handleEvent(event, window);
+    }
+    for (auto& button : rightMedCharButtons) {
         button.handleEvent(event, window);
     }
 }
+
 
 void CharacterSelect::draw(sf::RenderWindow& window) {
     window.draw(backgroundSprite);
@@ -92,10 +116,16 @@ void CharacterSelect::draw(sf::RenderWindow& window) {
     for (auto& button : uiButtons) {
         button.draw(window);
     }
-    for (auto& button : leftCharButtons) {
+    for (auto& button : leftTopCharButtons) {
         button.draw(window);
     }
-    for (auto& button : rightCharButtons) {
+    for (auto& button : rightTopCharButtons) {
+        button.draw(window);
+    }
+    for (auto& button : leftMedCharButtons) {
+        button.draw(window);
+    }
+    for (auto& button : rightMedCharButtons) {
         button.draw(window);
     }
 }
