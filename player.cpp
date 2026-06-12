@@ -13,7 +13,7 @@ Player::Player(std::string texturePath, float startX, float startY, bool isP1) {
     
     sf::Image image;
     
-    if (!image.loadFromFile(texturePath)) {
+    if (!image.loadFromFile("Icons/" + texturePath)) {
         std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
     }
     

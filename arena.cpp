@@ -6,7 +6,7 @@ Arena::Arena(GameEngine* gameEngine) {
     engine = gameEngine;
 
     
-    if (!backgroundTexture.loadFromFile("widen_1840x0.jpg")) {
+    if (!backgroundTexture.loadFromFile("Icons/widen_1840x0.jpg")) {
         std::cout << "Blad tla areny!" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);

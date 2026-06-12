@@ -11,7 +11,7 @@ Animation::Animation(const std::string& texturePath, int width, int height) {
     animationSpeed = 0.15f;
 
     sf::Image image;
-    if (!image.loadFromFile(texturePath)) {
+    if (!image.loadFromFile("Icons/" + texturePath)) {
         std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
     }
     image.createMaskFromColor(sf::Color(255, 0, 255));
