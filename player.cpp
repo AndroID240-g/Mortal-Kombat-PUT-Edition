@@ -1,13 +1,12 @@
 #include "player.h"
 
-static const float GROUND_OFFSET = 30.f; // OK - postac stoi dobrze, nie zmieniaj
+static const float GROUND_OFFSET = 30.f; 
 
-// --- DO DOSTROJENIA WIZUALNEGO ---
 // Jesli przy chodzeniu postac SKACZE W GORE -> ZWIEKSZ WALK_Y_OFFSET (np. 10, 20, 30...)
 // Jesli przy chodzeniu postac WPADA W DOL    -> ZMNIEJSZ (wartosci ujemne)
 // Analogicznie dla ATTACK_Y_OFFSET, jesli atak rowniez "skacze"
-static const float WALK_Y_OFFSET = 0.f;
-static const float ATTACK_Y_OFFSET = 0.f;
+static const float WALK_Y_OFFSET = -60.f;
+static const float ATTACK_Y_OFFSET = -60.f;
 
 // --- ROZMIAR HITBOXA - DO DOSTROJENIA ---
 // Czerwona ramka powinna obejmowac postac. Zmieniaj te 2 liczby az bedzie pasowac.
@@ -100,7 +99,7 @@ void Player::update(float deltaTime) {
         isJumping = false;
     }
 
-    // --- BLOKADA WYJSCIA POZA ARENE ---
+    // blokada wyjscia poza arene
     {
         float screenWidth = static_cast<float>(sf::VideoMode::getDesktopMode().width);
         float halfWidth = HITBOX_WIDTH / 2.f;
@@ -116,7 +115,7 @@ void Player::update(float deltaTime) {
         }
     }
 
-    // --- ZMIANY ANIMACJI SĄ TUTAJ ---
+    // zmiany animacji
     if (currentState == AnimState::Idle) {
         anim.setAnimation(0, 7, 0.f);
     }
