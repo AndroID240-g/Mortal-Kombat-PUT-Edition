@@ -15,6 +15,10 @@ LIBS += -lsfml-graphics -lsfml-window -lsfml-system
 # --------------------------
 
 SOURCES += main.cpp \
+    animation.cpp \
+    apteczka.cpp \
+    animation.cpp \
+    apteczka.cpp \
     arena.cpp \
     buttons.cpp \
     characterSelect.cpp \
@@ -24,10 +28,16 @@ SOURCES += main.cpp \
     settings.cpp
 
 HEADERS += \
+    animation.h \
+    apteczka.h \
+    gameobject.h \
+    animation.h \
+    apteczka.h \
     arena.h \
     buttons.h \
     characterSelect.h \
     engine.h \
+    gameobject.h \
     mainMenu.h \
     player.h \
     settings.h
