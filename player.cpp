@@ -4,7 +4,7 @@ static const float GROUND_OFFSET = 30.f;
 
 // --- PROSTE FUNKCJE POMOCNICZE DLA KONSTRUKTORA ---
 // Dzięki temu nie musimy pisać skomplikowanych struktur.
-std::string getTexPath(int id) { return (id == 1) ? "Icons/green_ninja_sargent.png" : "Icons/Animacje_Stojace.png"; }
+std::string getTexPath(int id) { return (id == 1) ? "Icons/char_2_fight.png" : "Icons/char_1_fight.png"; }
 int getFrameW(int id) { return (id == 1) ? 64 : 385; }
 int getFrameH(int id) { return (id == 1) ? 64 : 280; }
 bool getUseMask(int id) { return (id == 1) ? true : false; }

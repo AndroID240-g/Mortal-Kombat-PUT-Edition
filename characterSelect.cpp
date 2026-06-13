@@ -16,17 +16,17 @@ CharacterSelect::CharacterSelect(GameEngine* gameEngine) {
     }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setScale(screenWidth / backgroundTexture.getSize().x,
-                              screenHeight / backgroundTexture.getSize().y);
+        screenHeight / backgroundTexture.getSize().y);
 
     backBtnTex.loadFromFile("Icons/backBtnTex.png");
 
     uiButtons.push_back(Button(sf::Vector2f(50.f, 50.f), 0.2f, backBtnTex,
-                               [this]() { engine->changeScreen(ScreenState::Menu); }));
+        [this]() { engine->changeScreen(ScreenState::Menu); }));
 
     fightBtnTex.loadFromFile("Icons/fightBtnTex.png");
 
     uiButtons.push_back(Button(sf::Vector2f(screenWidth / 2.0f - 200.f, screenHeight * 0.82f), 0.4f, fightBtnTex,
-                               [this]() { engine->changeScreen(ScreenState::Arena); }));
+        [this]() { engine->changeScreen(ScreenState::Arena); }));
 
     redFrameTex.loadFromFile("Icons/redFrame.png");
     violetFrameTex.loadFromFile("Icons/violetFrame.png");
