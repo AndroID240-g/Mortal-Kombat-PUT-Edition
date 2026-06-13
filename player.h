@@ -23,10 +23,16 @@ private:
     int hp;
     bool isPlayerOne;
     bool isAttacking;
+    float invincibilityTimer;
+
+    // --- JEDYNA NOWA ZMIENNA ---
+    // Zapisujemy kim gramy, żeby wiedzieć jak rysować animacje
+    int myCharId;
 
 public:
-    Player(std::string texturePath, float startX, float startY, bool isP1);
+    Player(int charId, float startX, float startY, bool isP1);
 
+    void setPosition(float x, float y);
     void handleInput();
     void update(float deltaTime) override;
     void draw(sf::RenderWindow& window) override;

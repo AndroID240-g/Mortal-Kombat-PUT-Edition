@@ -17,16 +17,14 @@ private:
     float animationSpeed;
 
 public:
-    Animation(const std::string& texturePath, int width, int height);
+    Animation(const std::string& texturePath, int width, int height, bool useMask = false, sf::Color maskColor = sf::Color::Black);
 
     bool update(float deltaTime);
-    // originYOffset: dodatkowe przesuniecie punktu zaczepienia w osi Y,
-    // wlasciwe dla danego stanu animacji (kompensuje rozne ulozenie
-    // sylwetki w klatce miedzy wierszami sprite sheetu)
     void setAnimation(int row, int frames, float originYOffset = 0.f);
     void setPosition(float x, float y);
     void setScale(float x, float y);
     void move(float offsetX, float offsetY);
+    void setSpeed(float speed);
     sf::Vector2f getPosition() const;
     sf::FloatRect getGlobalBounds() const;
     void draw(sf::RenderWindow& window);

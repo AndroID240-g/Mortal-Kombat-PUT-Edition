@@ -37,9 +37,14 @@ private:
     sf::Texture redFrameTex;
     sf::Texture violetFrameTex;
 
+    std::map<int, sf::Texture> characterTextures;
+
     std::vector<Button> uiButtons;
-    std::vector<Button> leftCharButtons;
-    std::vector<Button> rightCharButtons;
+    std::vector<Button> leftTopCharButtons;
+    std::vector<Button> rightTopCharButtons;
+    std::vector<Button> leftMedCharButtons;
+    std::vector<Button> rightMedCharButtons;
+
 };
 
 #endif
