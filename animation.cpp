@@ -1,7 +1,8 @@
 #include "animation.h"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
-Animation::Animation(const std::string& texturePath, int width, int height) {
+Animation::Animation(const std::string& texturePath, int width, int height, bool useMask, sf::Color maskColor) {
     frameWidth = width;
     frameHeight = height;
     currentFrame = 0;
@@ -15,10 +16,13 @@ Animation::Animation(const std::string& texturePath, int width, int height) {
         std::cout << "Blad ladowania grafiki: " << texturePath << std::endl;
     }
 
-    // --- ZMIANA KOLORU MASKI NA CZARNY ---
-    image.createMaskFromColor(sf::Color(0, 0, 0));
+    if (useMask) {
+        image.createMaskFromColor(maskColor);
+    }
 
     texture.loadFromImage(image);
+    texture.setSmooth(false);
+
     sprite.setTexture(texture);
     sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f);
     sprite.setTextureRect(sf::IntRect(0, 0, frameWidth, frameHeight));
@@ -42,32 +46,23 @@ bool Animation::update(float deltaTime) {
     return finished;
 }
 
-void Animation::setAnimation(int row, int frames) {
-
+void Animation::setAnimation(int row, int frames, float originYOffset) {
     if (currentRow != row || maxFrames != frames) {
         currentRow = row;
         maxFrames = frames;
         currentFrame = 0;
         animationTimer = 0.f;
     }
+    sprite.setOrigin(frameWidth / 2.f, frameHeight / 2.f + originYOffset);
 }
 
-void Animation::setPosition(float x, float y) {
-    sprite.setPosition(x, y);
+void Animation::setSpeed(float speed) {
+    animationSpeed = speed;
 }
 
-void Animation::setScale(float x, float y) {
-    sprite.setScale(x, y);
-}
-
-void Animation::move(float offsetX, float offsetY) {
-    sprite.move(offsetX, offsetY);
-}
-
-sf::Vector2f Animation::getPosition() const {
-    return sprite.getPosition();
-}
-
-void Animation::draw(sf::RenderWindow& window) {
-    window.draw(sprite);
-}
+void Animation::setPosition(float x, float y) { sprite.setPosition(x, y); }
+void Animation::setScale(float x, float y) { sprite.setScale(x, y); }
+void Animation::move(float offsetX, float offsetY) { sprite.move(offsetX, offsetY); }
+sf::Vector2f Animation::getPosition() const { return sprite.getPosition(); }
+sf::FloatRect Animation::getGlobalBounds() const { return sprite.getGlobalBounds(); }
+void Animation::draw(sf::RenderWindow& window) { window.draw(sprite); }

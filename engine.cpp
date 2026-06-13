@@ -37,23 +37,14 @@ void GameEngine::processEvents() {
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) window.close();
 
-        if (currentScreen == ScreenState::Menu) {
-            mainMenu->handleInput(event, window);
-        }
-        else if (currentScreen == ScreenState::Settings) {
-            settingsWindow->handleInput(event, window);
-        }
-        else if (currentScreen == ScreenState::CharacterSelect) {
-            characterSelect->handleInput(event, window);
-        }
-        else if (currentScreen == ScreenState::Arena) {
-            arena->handleInput(event, window);
-        }
+        if (currentScreen == ScreenState::Menu) mainMenu->handleInput(event, window);
+        else if (currentScreen == ScreenState::Settings) settingsWindow->handleInput(event, window);
+        else if (currentScreen == ScreenState::CharacterSelect) characterSelect->handleInput(event, window);
+        else if (currentScreen == ScreenState::Arena) arena->handleInput(event, window);
     }
 }
 
 void GameEngine::update() {
-
     if (currentScreen == ScreenState::Arena) {
         arena->update();
     }
@@ -61,23 +52,16 @@ void GameEngine::update() {
 
 void GameEngine::render() {
     window.clear();
-
-    if (currentScreen == ScreenState::Menu) {
-        mainMenu->draw(window);
-    }
-    else if (currentScreen == ScreenState::Settings) {
-        settingsWindow->draw(window);
-    }
-    else if (currentScreen == ScreenState::CharacterSelect) {
-        characterSelect->draw(window);
-    }
-    else if (currentScreen == ScreenState::Arena) {
-        arena->render(window);
-    }
-
+    if (currentScreen == ScreenState::Menu) mainMenu->draw(window);
+    else if (currentScreen == ScreenState::Settings) settingsWindow->draw(window);
+    else if (currentScreen == ScreenState::CharacterSelect) characterSelect->draw(window);
+    else if (currentScreen == ScreenState::Arena) arena->render(window);
     window.display();
 }
 
 void GameEngine::changeScreen(ScreenState newState) {
+    if (newState == ScreenState::Arena) {
+        arena->init(selectedP1MapId, selectedP2MapId, selectedP1Id, selectedP2Id);
+    }
     currentScreen = newState;
 }
